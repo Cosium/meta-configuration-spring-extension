@@ -9,12 +9,20 @@
   </parent>
 
   <artifactId>meta-configuration-spring-extension-generator</artifactId>
+  <name>Meta Configuration Spring Extension Generator</name>
+  <packaging>jar</packaging>
 
   <properties>
-    <auto-service.version>1.0-rc7</auto-service.version>
+    <auto-service.version>1.0.1</auto-service.version>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>meta-configuration-spring-extension</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>com.google.auto.service</groupId>
       <artifactId>auto-service</artifactId>

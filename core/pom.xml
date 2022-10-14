@@ -9,6 +9,8 @@
   </parent>
 
   <artifactId>meta-configuration-spring-extension</artifactId>
+  <name>Meta Configuration Spring Extension</name>
+  <packaging>jar</packaging>
 
   <build>
     <plugins>
