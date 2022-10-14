@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.CLASS)
 @Target({ElementType.TYPE, ElementType.PACKAGE})
-@Repeatable(MetaConfigurations.class)
+@Repeatable(GenerateConfigurations.class)
 public @interface GenerateConfiguration {
   Class<?> sourceConfigurationClass();
 
@@ -19,12 +19,12 @@ public @interface GenerateConfiguration {
 
   boolean annotateWithAtConfiguration() default false;
 
-  GeneratedBean[] beans();
+  GeneratedBean[] generatedBeans() default {};
 
   @interface GeneratedBean {
     String metaId();
 
-    String[] beanNames();
+    String[] beanNames() default {};
 
     boolean primary() default false;
   }

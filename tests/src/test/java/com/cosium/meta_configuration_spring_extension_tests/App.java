@@ -9,7 +9,7 @@ import com.cosium.meta_configuration_spring_extension.GenerateConfiguration;
     sourceConfigurationClass = MyConfiguration.class,
     generatedConfigurationClassName = "AlphaConfiguration",
     annotateWithAtConfiguration = true,
-    beans = {
+    generatedBeans = {
       @GenerateConfiguration.GeneratedBean(
           metaId = MyConfiguration.FOO_META_ID,
           beanNames = AlphaBeanNames.FOO,
@@ -23,7 +23,7 @@ import com.cosium.meta_configuration_spring_extension.GenerateConfiguration;
     sourceConfigurationClass = MyConfiguration.class,
     generatedConfigurationClassName = "BetaConfiguration",
     annotateWithAtConfiguration = true,
-    beans = {
+    generatedBeans = {
       @GenerateConfiguration.GeneratedBean(
           metaId = MyConfiguration.FOO_META_ID,
           beanNames = BetaBeanNames.FOO),

@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
  * @author Réda Housni Alaoui
  */
 @Target(ElementType.TYPE)
-public @interface MetaConfigurations {
+public @interface GenerateConfigurations {
   GenerateConfiguration[] value();
 }
