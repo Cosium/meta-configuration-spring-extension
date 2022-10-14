@@ -10,11 +10,11 @@ import com.cosium.meta_configuration_spring_extension.GenerateConfiguration;
     generatedConfigurationClassName = "AlphaConfiguration",
     annotateWithAtConfiguration = true,
     beans = {
-      @GenerateConfiguration.MetaBean(
+      @GenerateConfiguration.GeneratedBean(
           metaId = MyConfiguration.FOO_META_ID,
           beanNames = AlphaBeanNames.FOO,
           primary = true),
-      @GenerateConfiguration.MetaBean(
+      @GenerateConfiguration.GeneratedBean(
           metaId = MyConfiguration.BAR_META_ID,
           beanNames = AlphaBeanNames.BAR,
           primary = true)
@@ -24,10 +24,10 @@ import com.cosium.meta_configuration_spring_extension.GenerateConfiguration;
     generatedConfigurationClassName = "BetaConfiguration",
     annotateWithAtConfiguration = true,
     beans = {
-      @GenerateConfiguration.MetaBean(
+      @GenerateConfiguration.GeneratedBean(
           metaId = MyConfiguration.FOO_META_ID,
           beanNames = BetaBeanNames.FOO),
-      @GenerateConfiguration.MetaBean(
+      @GenerateConfiguration.GeneratedBean(
           metaId = MyConfiguration.BAR_META_ID,
           beanNames = BetaBeanNames.BAR)
     })

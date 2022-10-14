@@ -19,9 +19,9 @@ public @interface GenerateConfiguration {
 
   boolean annotateWithAtConfiguration() default false;
 
-  MetaBean[] beans();
+  GeneratedBean[] beans();
 
-  @interface MetaBean {
+  @interface GeneratedBean {
     String metaId();
 
     String[] beanNames();
