@@ -1,6 +1,7 @@
 package com.cosium.meta_configuration_spring_extension_tests;
 
 import com.cosium.meta_configuration_spring_extension.GenerateConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author Réda Housni Alaoui
@@ -31,4 +32,5 @@ import com.cosium.meta_configuration_spring_extension.GenerateConfiguration;
           metaId = MyConfiguration.BAR_META_ID,
           beanName = BetaBeanNames.BAR)
     })
+@SpringBootApplication
 public class App {}
