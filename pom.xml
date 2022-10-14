@@ -4,7 +4,7 @@
 
   <name>Meta Configuration Spring Extension Parent</name>
   <description>An annotation processor allowing to generate Spring Java configuration classes</description>
-  <url>https://github.com/Cosium/spring-data-jpa-entity-graph</url>
+  <url>https://github.com/Cosium/meta-configuration-spring-extension</url>
 
   <groupId>com.cosium.meta_configuration_spring_extension</groupId>
   <artifactId>meta-configuration-spring-extension-parent</artifactId>
@@ -19,8 +19,9 @@
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <spring.framework.version>5.3.22</spring.framework.version>
+    <spring-framework.version>5.3.22</spring-framework.version>
     <assertj.version>3.23.1</assertj.version>
     <logback.version>1.2.11</logback.version>
     <junit.version>5.9.1</junit.version>
@@ -30,6 +31,13 @@
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-framework-bom</artifactId>
+        <version>${spring-framework.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
@@ -209,9 +217,9 @@
   </distributionManagement>
 
   <scm>
-    <connection>scm:git:https://github.com/Cosium/spring-data-jpa-entity-graph</connection>
-    <developerConnection>scm:git:https://github.com/Cosium/spring-data-jpa-entity-graph</developerConnection>
-    <url>https://github.com/Cosium/spring-data-jpa-entity-graph</url>
+    <connection>scm:git:https://github.com/Cosium/meta-configuration-spring-extension</connection>
+    <developerConnection>scm:git:https://github.com/Cosium/meta-configuration-spring-extension</developerConnection>
+    <url>https://github.com/Cosium/meta-configuration-spring-extension</url>
     <tag>HEAD</tag>
   </scm>
 
