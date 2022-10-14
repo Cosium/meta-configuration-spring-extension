@@ -10,6 +10,7 @@ import com.squareup.javapoet.TypeName;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
@@ -35,6 +36,7 @@ public class MetaBeanMethod {
     return typeElement.getEnclosedElements().stream()
         .filter(ExecutableElement.class::isInstance)
         .map(ExecutableElement.class::cast)
+        .filter(executableElement -> executableElement.getKind() == ElementKind.METHOD)
         .map(MetaBeanMethod::parse)
         .filter(Optional::isPresent)
         .map(Optional::get)

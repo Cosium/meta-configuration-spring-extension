@@ -2,6 +2,7 @@ package com.cosium.meta_configuration_spring_extension_tests;
 
 import com.cosium.meta_configuration_spring_extension.MetaBean;
 import com.cosium.meta_configuration_spring_extension.MetaQualifier;
+import org.springframework.core.env.Environment;
 
 /**
  * @author Réda Housni Alaoui
@@ -10,6 +11,8 @@ public class MyConfiguration {
 
   public static final String FOO_META_ID = "FOO";
   public static final String BAR_META_ID = "BAR";
+
+  public MyConfiguration(@SuppressWarnings("unused") Environment environment) {}
 
   @MetaBean(metaId = FOO_META_ID)
   public Foo foo() {

@@ -29,6 +29,10 @@ public class Configuration {
 
     typeSpecBuilder.superclass(sourceConfigurationType.asType());
 
+    MetaConfigurationConstructor.collect(sourceConfigurationType).stream()
+        .map(constructor -> constructor.createOverridingMethodSpec(plan))
+        .forEach(typeSpecBuilder::addMethod);
+
     MetaBeanMethod.collect(sourceConfigurationType).stream()
         .map(metaBeanMethod -> metaBeanMethod.createOverridingMethodSpec(plan))
         .forEach(typeSpecBuilder::addMethod);
