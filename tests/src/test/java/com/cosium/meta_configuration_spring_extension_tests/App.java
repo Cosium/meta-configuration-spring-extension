@@ -12,11 +12,11 @@ import com.cosium.meta_configuration_spring_extension.GenerateConfiguration;
     generatedBeans = {
       @GenerateConfiguration.GeneratedBean(
           metaId = MyConfiguration.FOO_META_ID,
-          beanNames = AlphaBeanNames.FOO,
+          beanName = AlphaBeanNames.FOO,
           primary = true),
       @GenerateConfiguration.GeneratedBean(
           metaId = MyConfiguration.BAR_META_ID,
-          beanNames = AlphaBeanNames.BAR,
+          beanName = AlphaBeanNames.BAR,
           primary = true)
     })
 @GenerateConfiguration(
@@ -26,9 +26,9 @@ import com.cosium.meta_configuration_spring_extension.GenerateConfiguration;
     generatedBeans = {
       @GenerateConfiguration.GeneratedBean(
           metaId = MyConfiguration.FOO_META_ID,
-          beanNames = BetaBeanNames.FOO),
+          beanName = BetaBeanNames.FOO),
       @GenerateConfiguration.GeneratedBean(
           metaId = MyConfiguration.BAR_META_ID,
-          beanNames = BetaBeanNames.BAR)
+          beanName = BetaBeanNames.BAR)
     })
 public class App {}

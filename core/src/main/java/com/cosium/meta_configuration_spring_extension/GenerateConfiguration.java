@@ -13,7 +13,12 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.PACKAGE})
 @Repeatable(GenerateConfigurations.class)
 public @interface GenerateConfiguration {
+
+  String CURRENT_PACKAGE = "[CURRENT_PACKAGE]";
+
   Class<?> sourceConfigurationClass();
+
+  String generatedConfigurationClassPackage() default CURRENT_PACKAGE;
 
   String generatedConfigurationClassName();
 
@@ -24,7 +29,9 @@ public @interface GenerateConfiguration {
   @interface GeneratedBean {
     String metaId();
 
-    String[] beanNames() default {};
+    String beanName();
+
+    String[] aliases() default {};
 
     boolean primary() default false;
   }
