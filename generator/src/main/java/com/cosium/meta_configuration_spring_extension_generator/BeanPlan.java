@@ -8,9 +8,9 @@ import java.util.List;
  * @author Réda Housni Alaoui
  */
 public class BeanPlan {
-  private final GenerateConfiguration.GeneratedBean annotation;
+  private final GenerateConfiguration.Bean annotation;
 
-  public BeanPlan(GenerateConfiguration.GeneratedBean annotation) {
+  public BeanPlan(GenerateConfiguration.Bean annotation) {
     this.annotation = annotation;
   }
 

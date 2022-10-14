@@ -29,7 +29,7 @@ public class ConfigurationPlan {
     this.annotation = annotation;
     beanByMetaId =
         Arrays.stream(annotation.generatedBeans())
-            .collect(Collectors.toMap(GenerateConfiguration.GeneratedBean::metaId, BeanPlan::new));
+            .collect(Collectors.toMap(GenerateConfiguration.Bean::metaId, BeanPlan::new));
 
     String currentPackageCandidate =
         annotationCarrier.getEnclosingElement().accept(new PackageNameExtractor(), null);

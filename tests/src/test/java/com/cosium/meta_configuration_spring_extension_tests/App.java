@@ -11,11 +11,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
     generatedConfigurationClassName = "AlphaConfiguration",
     annotateWithAtConfiguration = true,
     generatedBeans = {
-      @GenerateConfiguration.GeneratedBean(
+      @GenerateConfiguration.Bean(
           metaId = MyConfiguration.FOO_META_ID,
           beanName = AlphaBeanNames.FOO,
           primary = true),
-      @GenerateConfiguration.GeneratedBean(
+      @GenerateConfiguration.Bean(
           metaId = MyConfiguration.BAR_META_ID,
           beanName = AlphaBeanNames.BAR,
           primary = true)
@@ -25,10 +25,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
     generatedConfigurationClassName = "BetaConfiguration",
     annotateWithAtConfiguration = true,
     generatedBeans = {
-      @GenerateConfiguration.GeneratedBean(
+      @GenerateConfiguration.Bean(
           metaId = MyConfiguration.FOO_META_ID,
           beanName = BetaBeanNames.FOO),
-      @GenerateConfiguration.GeneratedBean(
+      @GenerateConfiguration.Bean(
           metaId = MyConfiguration.BAR_META_ID,
           beanName = BetaBeanNames.BAR)
     })
