@@ -27,7 +27,7 @@ public class MetaConfigurationConstructor {
         .filter(ExecutableElement.class::isInstance)
         .map(ExecutableElement.class::cast)
         .filter(executableElement -> executableElement.getKind() == ElementKind.CONSTRUCTOR)
-        .map(executableElement1 -> new MetaConfigurationConstructor(types, executableElement1))
+        .map(constructor -> new MetaConfigurationConstructor(types, constructor))
         .toList();
   }
 
