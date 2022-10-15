@@ -1,9 +1,12 @@
 package com.cosium.meta_configuration_spring_extension_generator;
 
+import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import java.io.IOException;
 import javax.annotation.processing.Filer;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
@@ -28,14 +31,21 @@ public class Configuration {
       typeSpecBuilder.addAnnotation(org.springframework.context.annotation.Configuration.class);
     }
 
-    typeSpecBuilder.superclass(sourceConfigurationType.asType());
+    FieldSpec delegateField =
+        FieldSpec.builder(
+                TypeName.get(sourceConfigurationType.asType()),
+                "delegate",
+                Modifier.PRIVATE,
+                Modifier.FINAL)
+            .build();
+    typeSpecBuilder.addField(delegateField);
 
     MetaConfigurationConstructor.collect(types, sourceConfigurationType).stream()
-        .map(constructor -> constructor.createOverridingMethodSpec(plan))
+        .map(constructor -> constructor.createDelegatingMethodSpec(plan, delegateField))
         .forEach(typeSpecBuilder::addMethod);
 
     MetaBeanMethod.collect(sourceConfigurationType).stream()
-        .map(metaBeanMethod -> metaBeanMethod.createOverridingMethodSpec(plan))
+        .map(metaBeanMethod -> metaBeanMethod.createDelegatingMethodSpec(plan, delegateField))
         .forEach(typeSpecBuilder::addMethod);
 
     typeSpec = typeSpecBuilder.build();

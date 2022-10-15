@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import com.cosium.meta_configuration_spring_extension.MetaBean;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.CodeBlock;
+import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import java.util.List;
@@ -50,10 +51,9 @@ public class MetaBeanMethod {
     return Optional.of(new MetaBeanMethod(executableElement, annotation));
   }
 
-  public MethodSpec createOverridingMethodSpec(ConfigurationPlan plan) {
+  public MethodSpec createDelegatingMethodSpec(ConfigurationPlan plan, FieldSpec delegateField) {
     MethodSpec.Builder methodSpecBuilder =
         MethodSpec.methodBuilder(executableElement.getSimpleName().toString())
-            .addAnnotation(Override.class)
             .returns(TypeName.get(executableElement.getReturnType()))
             .addModifiers(executableElement.getModifiers().toArray(Modifier[]::new));
 
@@ -79,10 +79,12 @@ public class MetaBeanMethod {
     TypeMirror returnType = executableElement.getReturnType();
     if (returnType.getKind() == TypeKind.VOID) {
       methodSpecBuilder.addStatement(
-          "super.$N(%s)", executableElement.getSimpleName().toString(), superCallParams.toString());
+          "$N.$N(%s)",
+          delegateField, executableElement.getSimpleName().toString(), superCallParams.toString());
     } else {
       methodSpecBuilder.addStatement(
-          "return super.$N($L)",
+          "return $N.$N($L)",
+          delegateField,
           executableElement.getSimpleName().toString(),
           superCallParams.toString());
     }

@@ -1,6 +1,7 @@
 package com.cosium.meta_configuration_spring_extension_generator;
 
 import com.squareup.javapoet.CodeBlock;
+import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +32,7 @@ public class MetaConfigurationConstructor {
         .toList();
   }
 
-  public MethodSpec createOverridingMethodSpec(ConfigurationPlan plan) {
+  public MethodSpec createDelegatingMethodSpec(ConfigurationPlan plan, FieldSpec delegateField) {
     MethodSpec.Builder builder = MethodSpec.constructorBuilder();
     List<MetaConfigurationConstructorParameter> parameters =
         executableElement.getParameters().stream()
@@ -46,7 +47,9 @@ public class MetaConfigurationConstructor {
         .forEach(builder::addParameter);
 
     builder.addStatement(
-        "super($L)",
+        "$N = new $T($L)",
+        delegateField.name,
+        delegateField.type,
         parameters.stream()
             .map(parameter -> parameter.createParameterValue(plan))
             .collect(CodeBlock.joining(", ")));
