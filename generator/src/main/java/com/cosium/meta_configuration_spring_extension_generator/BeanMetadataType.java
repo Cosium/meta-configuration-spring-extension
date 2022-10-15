@@ -23,12 +23,12 @@ public class BeanMetadataType {
             .map(alias -> CodeBlock.of("$S", alias))
             .collect(CodeBlock.joining(", "));
     return Stream.of(
-            CodeBlock.of("$T.builder()", ClassName.get(BeanMetadata.class)),
+            CodeBlock.of("$T\n.builder()", ClassName.get(BeanMetadata.class)),
             CodeBlock.of("metaId($S)", beanPlan.metaId()),
             CodeBlock.of("beanName($S)", beanPlan.beanName()),
             CodeBlock.of("aliases($T.of($L))", ClassName.get(List.class), aliases),
             CodeBlock.of("primary($L)", beanPlan.primary()),
             CodeBlock.of("build()"))
-        .collect(CodeBlock.joining("."));
+        .collect(CodeBlock.joining("\n."));
   }
 }

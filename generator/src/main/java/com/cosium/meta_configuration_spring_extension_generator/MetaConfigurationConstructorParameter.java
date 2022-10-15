@@ -52,14 +52,14 @@ public class MetaConfigurationConstructorParameter {
   public CodeBlock createParameterValue(ConfigurationPlan plan) {
     if (isBeansMetadata()) {
       List<CodeBlock> beansMetadataBuild = new ArrayList<>();
-      beansMetadataBuild.add(CodeBlock.of("$T.builder()", ClassName.get(BeansMetadata.class)));
+      beansMetadataBuild.add(CodeBlock.of("$T\n.builder()", ClassName.get(BeansMetadata.class)));
       plan.beanPlans().stream()
           .map(BeanMetadataType::new)
           .map(BeanMetadataType::createInstantiationCode)
-          .map(metadataBuild -> CodeBlock.of("addBean($L)", metadataBuild))
+          .map(metadataBuild -> CodeBlock.of("addBean(\n$>$L$<\n)", metadataBuild))
           .forEach(beansMetadataBuild::add);
       beansMetadataBuild.add(CodeBlock.of("build()"));
-      return beansMetadataBuild.stream().collect(CodeBlock.joining("."));
+      return beansMetadataBuild.stream().collect(CodeBlock.joining("\n."));
     }
     InjectBeanName injectBeanName = variableElement.getAnnotation(InjectBeanName.class);
     if (injectBeanName == null) {

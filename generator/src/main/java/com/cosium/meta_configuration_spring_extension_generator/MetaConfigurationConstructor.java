@@ -47,12 +47,12 @@ public class MetaConfigurationConstructor {
         .forEach(builder::addParameter);
 
     builder.addStatement(
-        "$N = new $T($L)",
+        "$N = new $T(\n$L\n)",
         delegateField.name,
         delegateField.type,
         parameters.stream()
             .map(parameter -> parameter.createParameterValue(plan))
-            .collect(CodeBlock.joining(", ")));
+            .collect(CodeBlock.joining(",\n")));
     return builder.build();
   }
 }
