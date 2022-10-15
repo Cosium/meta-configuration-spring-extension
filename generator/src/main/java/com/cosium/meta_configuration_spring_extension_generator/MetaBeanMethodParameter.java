@@ -33,12 +33,7 @@ public class MetaBeanMethodParameter {
     MetaQualifier metaQualifier = variableElement.getAnnotation(MetaQualifier.class);
     if (metaQualifier != null) {
       String metaId = metaQualifier.metaId();
-      BeanPlan beanPlan =
-          plan.getBeanPlan(metaId)
-              .orElseThrow(
-                  () ->
-                      new IllegalStateException(
-                          "Could not found any information for meta-id '" + metaId + "'"));
+      BeanPlan beanPlan = plan.requireBeanPlan(metaId);
       builder.addAnnotation(
           AnnotationSpec.builder(Qualifier.class)
               .addMember("value", "$S", beanPlan.beanName())

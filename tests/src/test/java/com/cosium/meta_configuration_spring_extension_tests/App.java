@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
     sourceConfigurationClass = MyConfiguration.class,
     generatedConfigurationClassName = "AlphaConfiguration",
     annotateWithAtConfiguration = true,
-    generatedBeans = {
+    beans = {
       @GenerateConfiguration.Bean(
           metaId = MyConfiguration.FOO_META_ID,
           beanName = AlphaBeanNames.FOO,
@@ -24,7 +24,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
     sourceConfigurationClass = MyConfiguration.class,
     generatedConfigurationClassName = "BetaConfiguration",
     annotateWithAtConfiguration = true,
-    generatedBeans = {
+    beans = {
       @GenerateConfiguration.Bean(
           metaId = MyConfiguration.FOO_META_ID,
           beanName = BetaBeanNames.FOO),

@@ -7,7 +7,6 @@ import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import javax.lang.model.element.ElementKind;
@@ -63,7 +62,7 @@ public class MetaBeanMethod {
     }
 
     AnnotationSpec.Builder beanSpecBuilder = AnnotationSpec.builder(Bean.class);
-    beanName(plan).ifPresent(beanName -> beanSpecBuilder.addMember("value", "$S", beanName));
+    beanSpecBuilder.addMember("value", "$S", getBeanName(plan));
     collectBeanAliases(plan).forEach(alias -> beanSpecBuilder.addMember("value", "$S", alias));
     methodSpecBuilder.addAnnotation(beanSpecBuilder.build());
 
@@ -92,17 +91,15 @@ public class MetaBeanMethod {
   }
 
   private boolean isPrimary(ConfigurationPlan plan) {
-    return plan.getBeanPlan(metaBeanAnnotation.metaId()).map(BeanPlan::primary).orElse(false);
+    return plan.requireBeanPlan(metaBeanAnnotation.metaId()).primary();
   }
 
-  private Optional<String> beanName(ConfigurationPlan plan) {
-    return plan.getBeanPlan(metaBeanAnnotation.metaId()).map(BeanPlan::beanName);
+  private String getBeanName(ConfigurationPlan plan) {
+    return plan.requireBeanPlan(metaBeanAnnotation.metaId()).beanName();
   }
 
   private List<String> collectBeanAliases(ConfigurationPlan plan) {
-    return plan.getBeanPlan(metaBeanAnnotation.metaId())
-        .map(BeanPlan::beanAliases)
-        .orElseGet(Collections::emptyList);
+    return plan.requireBeanPlan(metaBeanAnnotation.metaId()).beanAliases();
   }
 
   private List<MetaBeanMethodParameter> methodParameters() {

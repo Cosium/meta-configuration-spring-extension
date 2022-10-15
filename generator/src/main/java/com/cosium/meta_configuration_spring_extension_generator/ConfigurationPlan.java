@@ -28,7 +28,7 @@ public class ConfigurationPlan {
     this.types = types;
     this.annotation = annotation;
     beanByMetaId =
-        Arrays.stream(annotation.generatedBeans())
+        Arrays.stream(annotation.beans())
             .collect(Collectors.toMap(GenerateConfiguration.Bean::metaId, BeanPlan::new));
 
     String currentPackageCandidate =
@@ -63,8 +63,16 @@ public class ConfigurationPlan {
     return annotation.annotateWithAtConfiguration();
   }
 
-  public Optional<BeanPlan> getBeanPlan(String metaId) {
-    return Optional.ofNullable(beanByMetaId.get(metaId));
+  public BeanPlan requireBeanPlan(String metaId) {
+    return Optional.ofNullable(beanByMetaId.get(metaId))
+        .orElseThrow(
+            () ->
+                new IllegalArgumentException(
+                    "No "
+                        + GenerateConfiguration.Bean.class
+                        + " found for meta-id '"
+                        + metaId
+                        + "'"));
   }
 
   private static class PackageNameExtractor extends SimpleElementVisitor14<String, Void> {
