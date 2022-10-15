@@ -1,8 +1,8 @@
 package com.cosium.meta_configuration_spring_extension_tests;
 
+import com.cosium.meta_configuration_spring_extension.InjectBeanName;
 import com.cosium.meta_configuration_spring_extension.MetaBean;
 import com.cosium.meta_configuration_spring_extension.MetaQualifier;
-import org.springframework.core.env.Environment;
 
 /**
  * @author Réda Housni Alaoui
@@ -12,15 +12,23 @@ public class MyConfiguration {
   public static final String FOO_META_ID = "FOO";
   public static final String BAR_META_ID = "BAR";
 
-  public MyConfiguration(@SuppressWarnings("unused") Environment environment) {}
+  private final String fooBeanName;
+  private final String barBeanName;
+
+  public MyConfiguration(
+      @InjectBeanName(metaId = FOO_META_ID) String fooBeanName,
+      @InjectBeanName(metaId = BAR_META_ID) String barBeanName) {
+    this.fooBeanName = fooBeanName;
+    this.barBeanName = barBeanName;
+  }
 
   @MetaBean(metaId = FOO_META_ID)
   public Foo foo() {
-    return new Foo();
+    return new Foo(fooBeanName);
   }
 
   @MetaBean(metaId = BAR_META_ID)
   public Bar bar(@MetaQualifier(metaId = FOO_META_ID) Foo foo) {
-    return new Bar(foo);
+    return new Bar(barBeanName, foo);
   }
 }

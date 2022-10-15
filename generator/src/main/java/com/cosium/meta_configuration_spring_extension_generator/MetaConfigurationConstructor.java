@@ -1,8 +1,9 @@
 package com.cosium.meta_configuration_spring_extension_generator;
 
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.MethodSpec;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
@@ -29,14 +30,21 @@ public class MetaConfigurationConstructor {
 
   public MethodSpec createOverridingMethodSpec(ConfigurationPlan plan) {
     MethodSpec.Builder builder = MethodSpec.constructorBuilder();
-    List<MetaBeanMethodParameter> parameters =
-        executableElement.getParameters().stream().map(MetaBeanMethodParameter::new).toList();
+    List<MetaConfigurationConstructorParameter> parameters =
+        executableElement.getParameters().stream()
+            .map(MetaConfigurationConstructorParameter::new)
+            .toList();
     parameters.stream()
-        .map(parameter -> parameter.createOverridingParameterSpec(plan))
+        .map(MetaConfigurationConstructorParameter::createOverridingParameterSpec)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
         .forEach(builder::addParameter);
+
     builder.addStatement(
         "super($L)",
-        parameters.stream().map(MetaBeanMethodParameter::name).collect(Collectors.joining(", ")));
+        parameters.stream()
+            .map(parameter -> parameter.createParameterValue(plan))
+            .collect(CodeBlock.joining(", ")));
     return builder.build();
   }
 }

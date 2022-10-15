@@ -53,4 +53,14 @@ class MyConfigurationTest {
     assertThat(alphaBar.foo()).isSameAs(alphaFoo);
     assertThat(betaBar.foo()).isSameAs(betaFoo);
   }
+
+  @Test
+  @DisplayName("Bean names are correctly injected")
+  void test4() {
+    assertThat(alphaFoo.beanName()).isEqualTo(AlphaBeanNames.FOO);
+    assertThat(alphaBar.beanName()).isEqualTo(AlphaBeanNames.BAR);
+
+    assertThat(betaFoo.beanName()).isEqualTo(BetaBeanNames.FOO);
+    assertThat(betaBar.beanName()).isEqualTo(BetaBeanNames.BAR);
+  }
 }
