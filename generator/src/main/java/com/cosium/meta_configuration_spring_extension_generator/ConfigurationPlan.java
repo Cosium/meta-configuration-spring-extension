@@ -4,6 +4,8 @@ import static java.util.Objects.requireNonNull;
 
 import com.cosium.meta_configuration_spring_extension.GenerateConfiguration;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -73,6 +75,10 @@ public class ConfigurationPlan {
                         + " found for meta-id '"
                         + metaId
                         + "'"));
+  }
+
+  public List<BeanPlan> beanPlans() {
+    return beanByMetaId.values().stream().sorted(Comparator.comparing(BeanPlan::metaId)).toList();
   }
 
   private static class PackageNameExtractor extends SimpleElementVisitor14<String, Void> {

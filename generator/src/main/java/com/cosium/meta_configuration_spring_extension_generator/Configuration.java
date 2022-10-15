@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.annotation.processing.Filer;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
 
 /**
  * @author Réda Housni Alaoui
@@ -15,7 +16,7 @@ public class Configuration {
   private final String packageName;
   private final TypeSpec typeSpec;
 
-  public Configuration(Elements elements, ConfigurationPlan plan) {
+  public Configuration(Elements elements, Types types, ConfigurationPlan plan) {
     packageName = plan.generatedConfigurationClassPackageName();
 
     String sourceConfigurationClassName = plan.sourceConfigurationClassName();
@@ -29,7 +30,7 @@ public class Configuration {
 
     typeSpecBuilder.superclass(sourceConfigurationType.asType());
 
-    MetaConfigurationConstructor.collect(sourceConfigurationType).stream()
+    MetaConfigurationConstructor.collect(types, sourceConfigurationType).stream()
         .map(constructor -> constructor.createOverridingMethodSpec(plan))
         .forEach(typeSpecBuilder::addMethod);
 

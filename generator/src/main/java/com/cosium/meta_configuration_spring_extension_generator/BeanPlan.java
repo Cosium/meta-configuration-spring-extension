@@ -14,6 +14,10 @@ public class BeanPlan {
     this.annotation = annotation;
   }
 
+  public String metaId() {
+    return annotation.metaId();
+  }
+
   public boolean primary() {
     return annotation.primary();
   }

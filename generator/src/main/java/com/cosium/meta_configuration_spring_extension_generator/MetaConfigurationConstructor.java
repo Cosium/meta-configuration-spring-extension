@@ -7,24 +7,27 @@ import java.util.Optional;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.util.Types;
 
 /**
  * @author Réda Housni Alaoui
  */
 public class MetaConfigurationConstructor {
 
+  private final Types types;
   private final ExecutableElement executableElement;
 
-  public MetaConfigurationConstructor(ExecutableElement executableElement) {
+  public MetaConfigurationConstructor(Types types, ExecutableElement executableElement) {
+    this.types = types;
     this.executableElement = executableElement;
   }
 
-  public static List<MetaConfigurationConstructor> collect(TypeElement typeElement) {
+  public static List<MetaConfigurationConstructor> collect(Types types, TypeElement typeElement) {
     return typeElement.getEnclosedElements().stream()
         .filter(ExecutableElement.class::isInstance)
         .map(ExecutableElement.class::cast)
         .filter(executableElement -> executableElement.getKind() == ElementKind.CONSTRUCTOR)
-        .map(MetaConfigurationConstructor::new)
+        .map(executableElement1 -> new MetaConfigurationConstructor(types, executableElement1))
         .toList();
   }
 
@@ -32,7 +35,9 @@ public class MetaConfigurationConstructor {
     MethodSpec.Builder builder = MethodSpec.constructorBuilder();
     List<MetaConfigurationConstructorParameter> parameters =
         executableElement.getParameters().stream()
-            .map(MetaConfigurationConstructorParameter::new)
+            .map(
+                variableElement ->
+                    new MetaConfigurationConstructorParameter(types, variableElement))
             .toList();
     parameters.stream()
         .map(MetaConfigurationConstructorParameter::createOverridingParameterSpec)

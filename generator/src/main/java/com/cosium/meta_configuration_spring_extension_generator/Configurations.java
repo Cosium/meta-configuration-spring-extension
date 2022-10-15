@@ -29,7 +29,7 @@ public class Configurations {
         typeElement.getAnnotation(GenerateConfigurations.class);
     return Arrays.stream(generateConfigurations.value())
         .map(annotation -> new ConfigurationPlan(types, typeElement, annotation))
-        .map(configurationPlan -> new Configuration(elements, configurationPlan))
+        .map(configurationPlan -> new Configuration(elements, types, configurationPlan))
         .toList();
   }
 }
