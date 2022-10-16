@@ -23,59 +23,67 @@ import org.springframework.boot.test.context.SpringBootTest;
     annotateWithAtConfiguration = true,
     beans = {
       @GenerateConfiguration.Bean(
-          metaId = MyConfiguration.METADATA,
-          beanName = AlphaBeanNames.METADATA),
+          metaId = MyConfiguration.METADATA_ID,
+          beanName = AlphaConstants.METADATA_BEAN_NAME),
       @GenerateConfiguration.Bean(
           metaId = MyConfiguration.FOO_META_ID,
-          beanName = AlphaBeanNames.FOO,
-          aliases = AlphaBeanNames.FOO_ALIAS,
+          beanName = AlphaConstants.FOO_BEAN_NAME,
+          aliases = AlphaConstants.FOO_ALIAS,
           primary = true),
       @GenerateConfiguration.Bean(
           metaId = MyConfiguration.BAR_META_ID,
-          beanName = AlphaBeanNames.BAR,
+          beanName = AlphaConstants.BAR_BEAN_NAME,
           primary = true)
-    })
+    },
+    parameters =
+        @GenerateConfiguration.Parameter(
+            key = MyConfiguration.CONFIGURATION_ID_KEY,
+            value = AlphaConstants.CONFIGURATION_ID))
 @GenerateConfiguration(
     sourceConfigurationClass = MyConfiguration.class,
     generatedConfigurationClassName = "BetaConfiguration",
     annotateWithAtConfiguration = true,
     beans = {
       @GenerateConfiguration.Bean(
-          metaId = MyConfiguration.METADATA,
-          beanName = BetaBeanNames.METADATA),
+          metaId = MyConfiguration.METADATA_ID,
+          beanName = BetaConstants.METADATA_BEAN_NAME),
       @GenerateConfiguration.Bean(
           metaId = MyConfiguration.FOO_META_ID,
-          beanName = BetaBeanNames.FOO),
+          beanName = BetaConstants.FOO_BEAN_NAME),
       @GenerateConfiguration.Bean(
           metaId = MyConfiguration.BAR_META_ID,
-          beanName = BetaBeanNames.BAR)
-    })
+          beanName = BetaConstants.BAR_BEAN_NAME)
+    },
+    parameters =
+        @GenerateConfiguration.Parameter(
+            key = MyConfiguration.CONFIGURATION_ID_KEY,
+            value = BetaConstants.CONFIGURATION_ID))
 @SpringBootTest
 class MyConfigurationTest {
 
   @Autowired private BeanFactory beanFactory;
 
-  @Qualifier(AlphaBeanNames.METADATA)
+  @Qualifier(AlphaConstants.METADATA_BEAN_NAME)
   @Autowired
   private BeansMetadata alphaBeansMetadata;
 
-  @Qualifier(AlphaBeanNames.FOO)
+  @Qualifier(AlphaConstants.FOO_BEAN_NAME)
   @Autowired
   private Foo alphaFoo;
 
-  @Qualifier(AlphaBeanNames.BAR)
+  @Qualifier(AlphaConstants.BAR_BEAN_NAME)
   @Autowired
   private Bar alphaBar;
 
-  @Qualifier(BetaBeanNames.METADATA)
+  @Qualifier(BetaConstants.METADATA_BEAN_NAME)
   @Autowired
   private BeansMetadata betaBeansMetadata;
 
-  @Qualifier(BetaBeanNames.FOO)
+  @Qualifier(BetaConstants.FOO_BEAN_NAME)
   @Autowired
   private Foo betaFoo;
 
-  @Qualifier(BetaBeanNames.BAR)
+  @Qualifier(BetaConstants.BAR_BEAN_NAME)
   @Autowired
   private Bar betaBar;
 
@@ -103,11 +111,11 @@ class MyConfigurationTest {
   @Test
   @DisplayName("Bean names are correctly injected")
   void test4() {
-    assertThat(alphaFoo.beanName()).isEqualTo(AlphaBeanNames.FOO);
-    assertThat(alphaBar.beanName()).isEqualTo(AlphaBeanNames.BAR);
+    assertThat(alphaFoo.beanName()).isEqualTo(AlphaConstants.FOO_BEAN_NAME);
+    assertThat(alphaBar.beanName()).isEqualTo(AlphaConstants.BAR_BEAN_NAME);
 
-    assertThat(betaFoo.beanName()).isEqualTo(BetaBeanNames.FOO);
-    assertThat(betaBar.beanName()).isEqualTo(BetaBeanNames.BAR);
+    assertThat(betaFoo.beanName()).isEqualTo(BetaConstants.FOO_BEAN_NAME);
+    assertThat(betaBar.beanName()).isEqualTo(BetaConstants.BAR_BEAN_NAME);
   }
 
   @Test
@@ -115,18 +123,25 @@ class MyConfigurationTest {
   void test5() {
     assertThat(alphaBeansMetadata.byMetaId(MyConfiguration.FOO_META_ID).stream())
         .extracting(BeanMetadata::beanName, BeanMetadata::aliases, BeanMetadata::primary)
-        .contains(tuple(AlphaBeanNames.FOO, List.of(AlphaBeanNames.FOO_ALIAS), true));
+        .contains(tuple(AlphaConstants.FOO_BEAN_NAME, List.of(AlphaConstants.FOO_ALIAS), true));
 
     assertThat(alphaBeansMetadata.byMetaId(MyConfiguration.BAR_META_ID).stream())
         .extracting(BeanMetadata::beanName, BeanMetadata::aliases, BeanMetadata::primary)
-        .contains(tuple(AlphaBeanNames.BAR, List.of(), true));
+        .contains(tuple(AlphaConstants.BAR_BEAN_NAME, List.of(), true));
 
     assertThat(betaBeansMetadata.byMetaId(MyConfiguration.FOO_META_ID).stream())
         .extracting(BeanMetadata::beanName, BeanMetadata::aliases, BeanMetadata::primary)
-        .contains(tuple(BetaBeanNames.FOO, List.of(), false));
+        .contains(tuple(BetaConstants.FOO_BEAN_NAME, List.of(), false));
 
     assertThat(betaBeansMetadata.byMetaId(MyConfiguration.BAR_META_ID).stream())
         .extracting(BeanMetadata::beanName, BeanMetadata::aliases, BeanMetadata::primary)
-        .contains(tuple(BetaBeanNames.BAR, List.of(), false));
+        .contains(tuple(BetaConstants.BAR_BEAN_NAME, List.of(), false));
+  }
+
+  @Test
+  @DisplayName("Parameters are correctly injected")
+  void test6() {
+    assertThat(alphaFoo.configurationId()).isEqualTo(AlphaConstants.CONFIGURATION_ID);
+    assertThat(betaFoo.configurationId()).isEqualTo(BetaConstants.CONFIGURATION_ID);
   }
 }

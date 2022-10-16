@@ -26,6 +26,8 @@ public @interface GenerateConfiguration {
 
   Bean[] beans() default {};
 
+  Parameter[] parameters() default {};
+
   @interface Bean {
     String metaId();
 
@@ -34,5 +36,11 @@ public @interface GenerateConfiguration {
     String[] aliases() default {};
 
     boolean primary() default false;
+  }
+
+  @interface Parameter {
+    String key();
+
+    String value();
   }
 }

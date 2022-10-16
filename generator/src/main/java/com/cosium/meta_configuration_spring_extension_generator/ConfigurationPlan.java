@@ -23,6 +23,7 @@ public class ConfigurationPlan {
   private final Types types;
   private final GenerateConfiguration annotation;
   private final Map<String, BeanPlan> beanByMetaId;
+  private final Map<String, Parameter> parameterByKey;
   private final String currentPackageName;
 
   public ConfigurationPlan(
@@ -32,6 +33,9 @@ public class ConfigurationPlan {
     beanByMetaId =
         Arrays.stream(annotation.beans())
             .collect(Collectors.toMap(GenerateConfiguration.Bean::metaId, BeanPlan::new));
+    parameterByKey =
+        Arrays.stream(annotation.parameters())
+            .collect(Collectors.toMap(GenerateConfiguration.Parameter::key, Parameter::new));
 
     String currentPackageCandidate =
         annotationCarrier.getEnclosingElement().accept(new PackageNameExtractor(), null);
@@ -74,6 +78,18 @@ public class ConfigurationPlan {
                         + GenerateConfiguration.Bean.class
                         + " found for meta-id '"
                         + metaId
+                        + "'"));
+  }
+
+  public Parameter requireParameter(String parameterKey) {
+    return Optional.ofNullable(parameterByKey.get(parameterKey))
+        .orElseThrow(
+            () ->
+                new IllegalArgumentException(
+                    "No "
+                        + GenerateConfiguration.Parameter.class
+                        + " found for key '"
+                        + parameterKey
                         + "'"));
   }
 

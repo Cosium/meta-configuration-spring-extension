@@ -2,6 +2,7 @@ package com.cosium.meta_configuration_spring_extension_generator;
 
 import com.cosium.meta_configuration_spring_extension.BeansMetadata;
 import com.cosium.meta_configuration_spring_extension.InjectBeanName;
+import com.cosium.meta_configuration_spring_extension.InjectParameterValue;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.ParameterSpec;
@@ -35,8 +36,10 @@ public class MetaConfigurationConstructorParameter {
     if (isBeansMetadata()) {
       return Optional.empty();
     }
-    InjectBeanName injectBeanName = variableElement.getAnnotation(InjectBeanName.class);
-    if (injectBeanName != null) {
+    if (variableElement.getAnnotation(InjectBeanName.class) != null) {
+      return Optional.empty();
+    }
+    if (variableElement.getAnnotation(InjectParameterValue.class) != null) {
       return Optional.empty();
     }
 
@@ -61,12 +64,21 @@ public class MetaConfigurationConstructorParameter {
       beansMetadataBuild.add(CodeBlock.of("build()"));
       return beansMetadataBuild.stream().collect(CodeBlock.joining("\n."));
     }
+
     InjectBeanName injectBeanName = variableElement.getAnnotation(InjectBeanName.class);
-    if (injectBeanName == null) {
-      return CodeBlock.of("$N", name());
+    if (injectBeanName != null) {
+      String beanName = plan.requireBeanPlan(injectBeanName.metaId()).beanName();
+      return CodeBlock.of("$S", beanName);
     }
-    String beanName = plan.requireBeanPlan(injectBeanName.metaId()).beanName();
-    return CodeBlock.of("$S", beanName);
+
+    InjectParameterValue injectParameterValue =
+        variableElement.getAnnotation(InjectParameterValue.class);
+    if (injectParameterValue != null) {
+      String parameterValue = plan.requireParameter(injectParameterValue.key()).value();
+      return CodeBlock.of("$S", parameterValue);
+    }
+
+    return CodeBlock.of("$N", name());
   }
 
   private boolean isBeansMetadata() {
