@@ -1,10 +1,12 @@
 package com.cosium.meta_configuration_spring_extension_generator;
 
+import com.cosium.meta_configuration_spring_extension.GenerateConfiguration;
 import com.cosium.meta_configuration_spring_extension.GenerateConfigurations;
 import com.google.auto.service.AutoService;
+import java.lang.annotation.Annotation;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.ProcessingEnvironment;
@@ -40,7 +42,7 @@ public class Generator extends AbstractProcessor {
       return ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS;
     }
 
-    roundEnv.getElementsAnnotatedWith(GenerateConfigurations.class).stream()
+    roundEnv.getElementsAnnotatedWithAny(getSupportedAnnotationClasses()).stream()
         .map(TypeElement.class::cast)
         .map(typeElement -> new Configurations(elements, types, typeElement))
         .map(Configurations::list)
@@ -52,7 +54,13 @@ public class Generator extends AbstractProcessor {
 
   @Override
   public Set<String> getSupportedAnnotationTypes() {
-    return Collections.singleton(GenerateConfigurations.class.getCanonicalName());
+    return getSupportedAnnotationClasses().stream()
+        .map(Class::getCanonicalName)
+        .collect(Collectors.toSet());
+  }
+
+  private Set<Class<? extends Annotation>> getSupportedAnnotationClasses() {
+    return Set.of(GenerateConfigurations.class, GenerateConfiguration.class);
   }
 
   @Override
