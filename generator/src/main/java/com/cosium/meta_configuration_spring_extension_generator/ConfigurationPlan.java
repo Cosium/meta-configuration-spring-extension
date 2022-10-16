@@ -18,7 +18,7 @@ import javax.lang.model.util.Types;
 /**
  * @author Réda Housni Alaoui
  */
-public class ConfigurationPlan {
+class ConfigurationPlan {
 
   private final Types types;
   private final GenerateConfiguration annotation;

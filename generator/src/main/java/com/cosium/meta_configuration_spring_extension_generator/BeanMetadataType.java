@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 /**
  * @author Réda Housni Alaoui
  */
-public class BeanMetadataType {
+class BeanMetadataType {
 
   private final BeanPlan beanPlan;
 

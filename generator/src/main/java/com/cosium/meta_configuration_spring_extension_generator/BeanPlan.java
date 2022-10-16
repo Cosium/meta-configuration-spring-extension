@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author Réda Housni Alaoui
  */
-public class BeanPlan {
+class BeanPlan {
   private final GenerateConfiguration.Bean annotation;
 
   public BeanPlan(GenerateConfiguration.Bean annotation) {

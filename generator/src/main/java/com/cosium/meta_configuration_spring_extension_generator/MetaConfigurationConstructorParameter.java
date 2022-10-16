@@ -18,7 +18,7 @@ import javax.lang.model.util.Types;
 /**
  * @author Réda Housni Alaoui
  */
-public class MetaConfigurationConstructorParameter {
+class MetaConfigurationConstructorParameter {
 
   private final VariableElement variableElement;
   private final TypeElement typeElement;

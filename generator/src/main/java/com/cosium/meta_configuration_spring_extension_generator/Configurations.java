@@ -12,7 +12,7 @@ import javax.lang.model.util.Types;
 /**
  * @author Réda Housni Alaoui
  */
-public class Configurations {
+class Configurations {
 
   private final Elements elements;
   private final Types types;

@@ -13,7 +13,7 @@ import javax.lang.model.util.Types;
 /**
  * @author Réda Housni Alaoui
  */
-public class MetaConfigurationConstructor {
+class MetaConfigurationConstructor {
 
   private final Types types;
   private final ExecutableElement executableElement;

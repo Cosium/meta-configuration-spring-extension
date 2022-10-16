@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Primary;
 /**
  * @author Réda Housni Alaoui
  */
-public class MetaBeanMethod {
+class MetaBeanMethod {
 
   private final ExecutableElement executableElement;
   private final MetaBean metaBeanAnnotation;

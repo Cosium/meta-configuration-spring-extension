@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 /**
  * @author Réda Housni Alaoui
  */
-public class MetaBeanMethodParameter {
+class MetaBeanMethodParameter {
 
   private final VariableElement variableElement;
 

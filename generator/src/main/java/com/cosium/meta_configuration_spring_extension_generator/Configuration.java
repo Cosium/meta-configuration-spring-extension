@@ -14,7 +14,7 @@ import javax.lang.model.util.Types;
 /**
  * @author Réda Housni Alaoui
  */
-public class Configuration {
+class Configuration {
 
   private final String packageName;
   private final TypeSpec typeSpec;
