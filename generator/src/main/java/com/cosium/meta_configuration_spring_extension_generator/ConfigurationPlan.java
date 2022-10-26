@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.MirroredTypeException;
 import javax.lang.model.util.SimpleElementVisitor14;
 import javax.lang.model.util.Types;
 
@@ -32,7 +31,10 @@ class ConfigurationPlan {
     this.annotation = annotation;
     beanByMetaId =
         Arrays.stream(annotation.beans())
-            .collect(Collectors.toMap(GenerateConfiguration.Bean::metaId, BeanPlan::new));
+            .collect(
+                Collectors.toMap(
+                    GenerateConfiguration.Bean::metaId,
+                    annotation1 -> new BeanPlan(types, annotation1)));
     parameterByKey =
         Arrays.stream(annotation.parameters())
             .collect(Collectors.toMap(GenerateConfiguration.Parameter::key, Parameter::new));
@@ -43,14 +45,7 @@ class ConfigurationPlan {
   }
 
   public String sourceConfigurationClassName() {
-    TypeElement sourceConfigurationElement;
-    try {
-      annotation.sourceConfigurationClass();
-      throw new RuntimeException("annotation.sourceConfigurationClass() didn't throw !");
-    } catch (MirroredTypeException e) {
-      sourceConfigurationElement = (TypeElement) types.asElement(e.getTypeMirror());
-    }
-    return sourceConfigurationElement.getQualifiedName().toString();
+    return Classes.computeClassName(types, annotation::sourceConfigurationClass);
   }
 
   public String generatedConfigurationClassPackageName() {

@@ -24,16 +24,19 @@ import org.springframework.boot.test.context.SpringBootTest;
     beans = {
       @GenerateConfiguration.Bean(
           metaId = MyConfiguration.METADATA_ID,
-          beanName = AlphaConstants.METADATA_BEAN_NAME),
+          beanName = AlphaConstants.METADATA_BEAN_NAME,
+          qualifyingAnnotations = Alpha.class),
       @GenerateConfiguration.Bean(
           metaId = MyConfiguration.FOO_META_ID,
           beanName = AlphaConstants.FOO_BEAN_NAME,
           aliases = AlphaConstants.FOO_ALIAS,
-          primary = true),
+          primary = true,
+          qualifyingAnnotations = Alpha.class),
       @GenerateConfiguration.Bean(
           metaId = MyConfiguration.BAR_META_ID,
           beanName = AlphaConstants.BAR_BEAN_NAME,
-          primary = true)
+          primary = true,
+          qualifyingAnnotations = Alpha.class)
     },
     parameters =
         @GenerateConfiguration.Parameter(
@@ -63,17 +66,11 @@ class MyConfigurationTest {
 
   @Autowired private BeanFactory beanFactory;
 
-  @Qualifier(AlphaConstants.METADATA_BEAN_NAME)
-  @Autowired
-  private BeansMetadata alphaBeansMetadata;
+  @Alpha @Autowired private BeansMetadata alphaBeansMetadata;
 
-  @Qualifier(AlphaConstants.FOO_BEAN_NAME)
-  @Autowired
-  private Foo alphaFoo;
+  @Alpha @Autowired private Foo alphaFoo;
 
-  @Qualifier(AlphaConstants.BAR_BEAN_NAME)
-  @Autowired
-  private Bar alphaBar;
+  @Alpha @Autowired private Bar alphaBar;
 
   @Qualifier(BetaConstants.METADATA_BEAN_NAME)
   @Autowired

@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.cosium.meta_configuration_spring_extension.MetaBean;
 import com.squareup.javapoet.AnnotationSpec;
+import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
@@ -61,6 +62,12 @@ class MetaBeanMethod {
       methodSpecBuilder.addAnnotation(Primary.class);
     }
 
+    qualifyingAnnotationsNames(plan).stream()
+        .map(ClassName::bestGuess)
+        .map(AnnotationSpec::builder)
+        .map(AnnotationSpec.Builder::build)
+        .forEach(methodSpecBuilder::addAnnotation);
+
     AnnotationSpec.Builder beanSpecBuilder = AnnotationSpec.builder(Bean.class);
     beanSpecBuilder.addMember("value", "$S", getBeanName(plan));
     collectBeanAliases(plan).forEach(alias -> beanSpecBuilder.addMember("value", "$S", alias));
@@ -90,6 +97,10 @@ class MetaBeanMethod {
     }
 
     return methodSpecBuilder.build();
+  }
+
+  private List<String> qualifyingAnnotationsNames(ConfigurationPlan plan) {
+    return plan.requireBeanPlan(metaBeanAnnotation.metaId()).qualifyingAnnotations();
   }
 
   private boolean isPrimary(ConfigurationPlan plan) {

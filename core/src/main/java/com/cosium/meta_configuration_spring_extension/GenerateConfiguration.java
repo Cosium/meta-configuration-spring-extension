@@ -1,5 +1,6 @@
 package com.cosium.meta_configuration_spring_extension;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
@@ -36,6 +37,8 @@ public @interface GenerateConfiguration {
     String[] aliases() default {};
 
     boolean primary() default false;
+
+    Class<? extends Annotation>[] qualifyingAnnotations() default {};
   }
 
   @interface Parameter {
