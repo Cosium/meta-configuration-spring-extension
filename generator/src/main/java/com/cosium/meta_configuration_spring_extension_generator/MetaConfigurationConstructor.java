@@ -41,7 +41,7 @@ class MetaConfigurationConstructor {
                     new MetaConfigurationConstructorParameter(types, variableElement))
             .toList();
     parameters.stream()
-        .map(MetaConfigurationConstructorParameter::createOverridingParameterSpec)
+        .map(parameter -> parameter.createOverridingParameterSpec(plan))
         .filter(Optional::isPresent)
         .map(Optional::get)
         .forEach(builder::addParameter);

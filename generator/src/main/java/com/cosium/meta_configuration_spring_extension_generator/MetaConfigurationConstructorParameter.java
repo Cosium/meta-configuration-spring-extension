@@ -3,6 +3,8 @@ package com.cosium.meta_configuration_spring_extension_generator;
 import com.cosium.meta_configuration_spring_extension.BeansMetadata;
 import com.cosium.meta_configuration_spring_extension.InjectBeanName;
 import com.cosium.meta_configuration_spring_extension.InjectParameterValue;
+import com.cosium.meta_configuration_spring_extension.MetaQualifier;
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.ParameterSpec;
@@ -14,6 +16,7 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.Types;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * @author Réda Housni Alaoui
@@ -32,7 +35,7 @@ class MetaConfigurationConstructorParameter {
     return variableElement.getSimpleName().toString();
   }
 
-  public Optional<ParameterSpec> createOverridingParameterSpec() {
+  public Optional<ParameterSpec> createOverridingParameterSpec(ConfigurationPlan plan) {
     if (isBeansMetadata()) {
       return Optional.empty();
     }
@@ -43,12 +46,20 @@ class MetaConfigurationConstructorParameter {
       return Optional.empty();
     }
 
-    ParameterSpec parameterSpec =
+    ParameterSpec.Builder parameterBuilder =
         ParameterSpec.builder(
-                TypeName.get(variableElement.asType()),
-                name(),
-                variableElement.getModifiers().toArray(Modifier[]::new))
-            .build();
+            TypeName.get(variableElement.asType()),
+            name(),
+            variableElement.getModifiers().toArray(Modifier[]::new));
+
+    MetaQualifier metaQualifier = variableElement.getAnnotation(MetaQualifier.class);
+    if (metaQualifier != null) {
+      String beanName = plan.requireBeanPlan(metaQualifier.metaId()).beanName();
+      parameterBuilder.addAnnotation(
+          AnnotationSpec.builder(Qualifier.class).addMember("value", "$S", beanName).build());
+    }
+
+    ParameterSpec parameterSpec = parameterBuilder.build();
     return Optional.of(parameterSpec);
   }
 
