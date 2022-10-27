@@ -25,6 +25,8 @@ public @interface GenerateConfiguration {
 
   boolean annotateWithAtConfiguration() default false;
 
+  String[] dependsOn() default {};
+
   Bean[] beans() default {};
 
   Parameter[] parameters() default {};

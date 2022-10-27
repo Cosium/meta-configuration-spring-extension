@@ -64,6 +64,10 @@ class ConfigurationPlan {
     return annotation.annotateWithAtConfiguration();
   }
 
+  public List<String> dependsOn() {
+    return Arrays.stream(annotation.dependsOn()).toList();
+  }
+
   public BeanPlan requireBeanPlan(String metaId) {
     return Optional.ofNullable(beanByMetaId.get(metaId))
         .orElseThrow(
