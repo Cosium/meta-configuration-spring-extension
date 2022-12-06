@@ -29,7 +29,7 @@ class Configuration {
     TypeElement sourceConfigurationType = elements.getTypeElement(sourceConfigurationClassName);
 
     TypeSpec.Builder typeSpecBuilder =
-        TypeSpec.classBuilder(plan.generatedConfigurationClassName());
+        TypeSpec.classBuilder(plan.generatedConfigurationClassName()).addModifiers(Modifier.PUBLIC);
     if (plan.annotateWithAtConfiguration()) {
       typeSpecBuilder.addAnnotation(org.springframework.context.annotation.Configuration.class);
     }
