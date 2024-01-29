@@ -24,7 +24,7 @@
 
     <spring-boot.version>2.5.12</spring-boot.version>
 
-    <assertj.version>3.25.1</assertj.version>
+    <assertj.version>3.25.2</assertj.version>
     <logback.version>1.2.11</logback.version>
     <junit.version>5.10.1</junit.version>
 
